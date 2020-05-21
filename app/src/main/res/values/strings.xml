@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ListView</string>
+    <string name="icon">icon_id</string>
+    <string name="name">name</string>
+</resources>
