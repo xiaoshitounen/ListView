@@ -31,4 +31,8 @@ public class DataManager {
     public List<FriendBean> getBeans() {
         return beans;
     }
+    //set方法
+    public void setBeans(List<FriendBean> beans) {
+        this.beans = beans;
+    }
 }

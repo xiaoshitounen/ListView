@@ -12,6 +12,8 @@ import android.widget.ListView;
  */
 public class XLListView extends ListView {
 
+    //适配器
+    private MyAdapter adapter;
 
     /**
      * 构造方法：Java代码初始化
@@ -40,13 +42,14 @@ public class XLListView extends ListView {
      * 初始化操作-设置适配器
      */
     private void initData() {
-        setAdapter(new MyAdapter());
+        adapter = new MyAdapter();
+        setAdapter(adapter);
     }
 
     /**
      * 自定义的适配器
      */
-    private class MyAdapter extends BaseAdapter {
+    public class MyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -68,9 +71,15 @@ public class XLListView extends ListView {
             //获取模型
             FriendBean bean = DataManager.getDataManager().getBeans().get(position);
             //绑定视图和模型
-            FriendItem item = new FriendItem(bean, getContext());
+            FriendItem item = new FriendItem(bean, getContext(), convertView);
 
             return item.getItem_view();
         }
+    }
+
+    //set,get方法
+    @Override
+    public MyAdapter getAdapter() {
+        return adapter;
     }
 }

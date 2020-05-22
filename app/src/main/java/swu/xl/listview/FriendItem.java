@@ -12,7 +12,6 @@ import android.widget.TextView;
 public class FriendItem {
     //item对应的模型
     private FriendBean bean;
-
     //item对应的视图
     private int layout;
 
@@ -22,33 +21,51 @@ public class FriendItem {
     /**
      * 构造方法
      */
-    public FriendItem(FriendBean bean, Context context) {
+    public FriendItem(FriendBean bean, Context context, View convertView) {
         this.bean = bean;
         this.layout = R.layout.friend_layout;
 
         //关联
-        initView(context);
+        initView(context,convertView);
     }
 
     //将模型和视图关联
-    private void initView(Context context){
+    private void initView(Context context,View convertView){
         //1.获取布局
-        View inflate = LayoutInflater.from(context).inflate(layout, null);
+        ViewHolder viewHolder;
+        if (convertView == null){
+            //2.获取子视图
 
-        //2.获取子视图
-        ImageView icon_view = inflate.findViewWithTag(context.getResources().getString(R.string.icon));
-        TextView name_view = inflate.findViewWithTag(context.getResources().getString(R.string.name));
+            //加载布局
+            convertView = LayoutInflater.from(context).inflate(layout, null);
+            //完善ViewHolder
+            viewHolder = new ViewHolder();
+            viewHolder.icon_view = convertView.findViewWithTag(context.getResources().getString(R.string.icon));
+            viewHolder.name_view = convertView.findViewWithTag(context.getResources().getString(R.string.name));
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
         //3.设置数据
-        icon_view.setImageResource(bean.icon_id);
-        name_view.setText(bean.name);
+        viewHolder.icon_view.setImageResource(bean.icon_id);
+        viewHolder.name_view.setText(bean.name);
 
         //4.保存视图
-        item_view = inflate;
+        item_view = convertView;
+    }
+
+    /**
+     * 内部类：ViewHolder
+     */
+    private class ViewHolder{
+        public ImageView icon_view;
+        public TextView name_view;
     }
 
     //get方法
     public View getItem_view() {
         return item_view;
     }
+
 }
